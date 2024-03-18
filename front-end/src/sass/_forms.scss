@@ -1,0 +1,26 @@
+#form-contact {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+
+  >div {
+
+    display: flex;
+    margin-bottom: 20px;
+
+    input {
+      max-width: 250px;
+    }
+
+    label {
+      width: 200px;
+    }
+  }
+}

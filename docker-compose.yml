@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  apache-php:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./api:/var/www/api
+    networks:
+      - lamp-network
+  phpmyadmin:
+    image: phpmyadmin
+    links:
+      - mariadb:db
+    ports:
+      - "8080:80"
+    networks:
+      - lamp-network
+  mariadb:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    command: --lower_case_table_names=1
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - lamp-network
+    environment:
+      MARIADB_ROOT_PASSWORD: admin
+
+  front-end:
+    image: httpd:latest
+    volumes:
+      - ./front-end:/usr/local/apache2/htdocs
+    ports:
+      - "3000:80"
+    networks:
+      - lamp-network
+volumes:
+    mariadb:
+
+networks:
+    lamp-network:
+      name: lamp-network

@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # uncomment the following line, if you are having trouble
+  # getting no_script_name to work
+#  RewriteBase /
+# if the request is a file, then redirect to the index.php
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^(.*)$ index.php [QSA,L]
+
+  # no, so we redirect to our front web controller
+  RewriteRule ^(.*)$ index.php [QSA,L]
+
+</IfModule>
