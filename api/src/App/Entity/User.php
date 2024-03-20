@@ -10,7 +10,8 @@ use Api\Framework\Kernel\Http\Operations;
     operations:
     [
         Operations::GET,
-        Operations::POST
+        Operations::POST,
+        Operations::PATCH
     ]
 )]
 class User

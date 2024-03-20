@@ -14,7 +14,7 @@ class Endpoint
     public function __construct(
         private readonly string $path,
         private string          $requestMethod = 'GET',
-        private readonly bool   $protected = false
+        private ?Guard $guard = null,
     )
     {
     }
@@ -74,9 +74,14 @@ class Endpoint
         return $this->parameters;
     }
 
-    public function isProtected(): bool
+    public final function getGuard(): ?Guard
     {
-        return $this->protected;
+        return $this->guard;
+    }
+
+    public final function setGuard(Guard $guard): void
+    {
+        $this->guard = $guard;
     }
 
 }

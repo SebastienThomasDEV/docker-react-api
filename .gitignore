@@ -1,4 +1,5 @@
 .DS_Store
-/html/
-!/html/index.php
-!/html/dbtest.php
+./api/.env
+./api/vendor
+./front/node_modules
+./.env

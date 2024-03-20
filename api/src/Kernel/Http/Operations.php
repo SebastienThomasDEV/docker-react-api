@@ -16,5 +16,4 @@ abstract class Operations
     const PATCH = Patch::class;
     const DELETE = Delete::class;
 
-
 }

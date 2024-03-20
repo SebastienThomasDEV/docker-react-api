@@ -17,7 +17,8 @@ class ApiResource
 
     public function __construct(
         private readonly string $resource,
-        private readonly array $operations = []
+        private readonly array $operations = [],
+        private readonly bool $protected = false
     ){}
 
     public final function getOperations(): array
