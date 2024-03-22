@@ -1,2 +1,5 @@
 # docker-lamp
- wscwsc
+```bash
+docker-compose build --no-cache
+docker-compose up
+```
