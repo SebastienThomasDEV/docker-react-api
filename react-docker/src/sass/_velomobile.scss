@@ -1,0 +1,49 @@
+#add-velomobile {
+  @media (max-width: 960px) {
+    margin-top: 30px;
+  }
+}
+
+#form-add-velomobile {
+  @media (max-width: 960px) {
+    flex-direction: column;
+  }
+}
+
+.section-velomobile {
+  p {
+    width: 50%;
+  }
+
+  textarea {
+    height: 60px;
+  }
+
+  /* Media queries */
+  @media (max-width: 960px) {
+    flex-direction: column;
+
+    form {
+      flex-direction: column;
+    }
+
+    img {
+      margin-bottom: 5px !important;
+    }
+
+    p {
+      margin-bottom: 5px !important
+    }
+
+
+    h3 {
+      order: -2;
+    }
+
+    .admin-bar {
+      width: 100% !important;
+      order: -1;
+      margin-left: -10px;
+    }
+  }
+}

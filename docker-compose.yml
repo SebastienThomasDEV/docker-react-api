@@ -19,7 +19,7 @@ services:
   mariadb:
     image: mariadb
     ports:
-      - "3306:3306"
+      - "3307:3307"
     command: --lower_case_table_names=1
     volumes:
       - mariadb:/var/lib/mysql
@@ -28,14 +28,17 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: admin
 
-  front-end:
-    image: httpd:latest
-    volumes:
-      - ./front-end:/usr/local/apache2/htdocs
+  react-docker:
+    container_name: react-docker
+    build:
+      context: ./react-docker
     ports:
-      - "3000:80"
-    networks:
-      - lamp-network
+      - "3000:3000"
+    # stdin_open: true
+    volumes:
+      - ./react-docker:/usr/src/app/react-docker
+      - /usr/src/app/react-docker/node_modules
+
 volumes:
     mariadb:
 

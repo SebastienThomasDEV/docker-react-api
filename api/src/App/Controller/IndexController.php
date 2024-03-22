@@ -26,7 +26,7 @@ class IndexController extends AbstractController
     public function test(UserRepository $userRepository): JsonResponse
     {
         return $this->send([
-            'message' => "je suis sur la page home"
+            'message' => "je suis sur la page qzdqzdq"
         ]);
     }
 

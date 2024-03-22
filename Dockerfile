@@ -19,6 +19,6 @@ RUN a2ensite app && a2dissite 000-default
 COPY api/ /var/www/api/
 COPY config/zzz.ini /usr/local/etc/php/conf.d/
 # run npm install
-RUN apt-get install -y npm
+RUN cd /var/www/api composer install
 
 EXPOSE 80

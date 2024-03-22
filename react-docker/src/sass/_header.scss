@@ -1,0 +1,129 @@
+/**** NAVBAR issu de https: //www.youtube.com/watch?v=SihsGqNvRao&ab_channel=FromScratch-Led%C3%A9veloppementWebdez%C3%A9ro ****/
+nav#nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  font-size: calc(0.5rem + 1.5vw);
+
+  ul {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    list-style: none;
+    margin: 20px 0 !important;
+
+    >div {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    li {
+      &.login-out-link {
+        svg {
+          color: black;
+          font-size: 1.2em;
+
+        }
+
+        &:hover {
+          svg {
+            color: $primary;
+          }
+        }
+      }
+
+      svg {
+        margin-right: 8px;
+      }
+
+      /* Les svg pour la connexion/déconnexion */
+      a {
+        @include button();
+        font-size: 1rem;
+
+      }
+    }
+  }
+
+  #icons {
+    cursor: pointer;
+    display: none;
+    font-size: 1.5em;
+  }
+}
+
+
+
+/* Media queries */
+@media (max-width: 960px) {
+  #logo-baseline {
+    gap: 20px;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  #icons {
+    display: block !important;
+
+    &:before {
+      content: "\2630";
+    }
+  }
+
+  .active #icons:before {
+    content: "\2715";
+  }
+
+  nav {
+    ul {
+      position: fixed;
+      z-index: 9999;
+      left: -100%;
+      top: 40px;
+      flex-direction: column;
+      background: skyblue;
+      width: 100vw !important;
+      height: 95vh !important;
+      text-align: center;
+      transition: left 1s;
+      margin-left: 0 !important;
+      padding-left: 0 !important;
+      gap: 50px !important;
+      padding-bottom: 10px;
+      justify-content: center !important;
+
+      >div {
+        flex-direction: column;
+        justify-content: center;
+        gap: 0;
+      }
+
+      li {
+        padding: 3px 0;
+
+        a {
+          display: flex;
+          border: 0 !important;
+          background-color: transparent !important;
+          color: black !important;
+          justify-content: center;
+          align-items: center;
+          font-size: 1.4em;
+        }
+
+        &:hover {
+          background: rgb(157, 217, 240);
+        }
+      }
+    }
+
+    &.active ul {
+      left: 0;
+      margin-top: 0 !important;
+    }
+  }
+}
