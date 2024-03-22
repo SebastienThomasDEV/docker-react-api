@@ -10,13 +10,10 @@ use Api\Framework\Kernel\Utils\Utils;
 class Patch extends ResourceEndpoint
 {
 
-    public function __construct(string $resource)
-    {
-        parent::__construct($resource);
-    }
 
     public final function execute(int $id = null): array | object
     {
+        $this->checkIfGuarded();
         try {
             $vars = Utils::getRequestBody();
             $sanitizedData = Utils::sanitizeData($vars);

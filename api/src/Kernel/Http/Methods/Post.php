@@ -10,13 +10,10 @@ use Api\Framework\Kernel\Utils\Utils;
 class Post extends ResourceEndpoint
 {
 
-    public function __construct(string $resource)
-    {
-        parent::__construct($resource);
-    }
 
     public final function execute(): array | object
     {
+        $this->checkIfGuarded();
         $vars = Utils::getRequestBody();
         try {
             $sanitizedData = Utils::sanitizeData($vars);

@@ -13,12 +13,9 @@ use Api\Framework\Kernel\Http\Methods\Put;
 class ApiResource
 {
 
-
-
     public function __construct(
         private readonly string $resource,
         private readonly array $operations = [],
-        private readonly bool $protected = false
     ){}
 
     public final function getOperations(): array

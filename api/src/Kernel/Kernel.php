@@ -5,6 +5,7 @@ namespace Api\Framework\Kernel;
 // on inclut la classe Dotenv pour charger les variables d'environnement qui est une dépendance
 // installer via composer dans notre application
 use Api\Framework\Kernel\Utils\Utils;
+
 use Dotenv\Dotenv;
 
 // la classe Kernel est un singleton, on ne peut donc pas l'instancier directement
@@ -91,6 +92,7 @@ class Kernel
     {
         try {
             if (str_contains(Utils::getUrn(), 'resources')) {
+
                 ApiRouter::loadResourceEndPoint();
             } else {
                 ApiRouter::loadControllerEndpoint();

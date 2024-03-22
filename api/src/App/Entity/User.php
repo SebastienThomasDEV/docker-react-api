@@ -3,16 +3,17 @@
 namespace Api\Framework\App\Entity;
 
 use Api\Framework\Kernel\Attributes\ApiResource;
+use Api\Framework\Kernel\Http\Methods\Get;
+use Api\Framework\Kernel\Http\Methods\Post;
 use Api\Framework\Kernel\Http\Operations;
 
 #[ApiResource(
     resource: 'users',
     operations:
     [
-        Operations::GET,
-        Operations::POST,
-        Operations::PATCH
-    ]
+        new Post(guarded: true),
+        new Get()
+    ],
 )]
 class User
 {

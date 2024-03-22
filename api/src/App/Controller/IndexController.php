@@ -21,4 +21,14 @@ class IndexController extends AbstractController
             'message' => "je suis sur la page home"
         ]);
     }
+
+    #[Endpoint(path: '/test', requestMethod: 'GET')]
+    public function test(UserRepository $userRepository): JsonResponse
+    {
+        return $this->send([
+            'message' => "je suis sur la page home"
+        ]);
+    }
+
+
 }

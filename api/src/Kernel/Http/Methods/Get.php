@@ -8,13 +8,10 @@ use Api\Framework\Kernel\Utils\ResourceEndpoint;
 
 class Get extends ResourceEndpoint
 {
-    public function __construct(string $resource)
-    {
-        parent::__construct($resource);
-    }
 
     public final function execute(int $id = null): array | object
     {
+        $this->checkIfGuarded();
         if ($id) {
             try {
                 return new JsonResponse(Model::getInstance()->get($this->getTable(), $id), 200);

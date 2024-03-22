@@ -12,7 +12,7 @@ class Guard
 
 
 
-    public final function check(): bool
+    public final function handle(): bool
     {
         $auth_mode = match ($this->auth_type) {
             "jwt" => 'Api\\Framework\\Kernel\\Auth\\JwtTokenManager'
