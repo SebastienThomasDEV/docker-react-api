@@ -14,6 +14,27 @@ import FormContact from './components/FormContact';
  * @returns JSX
  */
 function App() {
+  if (condition) {
+    // fait si cela passe la condition
+  } else {
+    // sinon fait cela
+  }
+
+  if (condition) {
+    // fait si cela passe la condition
+  } else if (condition2) {
+    // fait cela si la condition 1 ne passe pase
+  } else {
+    // sinon fait cela
+  }
+
+
+
+
+
+
+
+
   console.log('hello world')
   fetch('http://localhost:80/test').then(response => {
     return response.json();

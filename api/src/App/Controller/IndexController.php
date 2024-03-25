@@ -13,20 +13,11 @@ use Api\Framework\Kernel\Services\JwtManager;
 class IndexController extends AbstractController
 {
 
-    #[Guard]
     #[Endpoint(path: '/', requestMethod: 'GET')]
     public function home(UserRepository $userRepository): JsonResponse
     {
         return $this->send([
             'message' => "je suis sur la page home"
-        ]);
-    }
-
-    #[Endpoint(path: '/test', requestMethod: 'GET')]
-    public function test(UserRepository $userRepository): JsonResponse
-    {
-        return $this->send([
-            'message' => "je suis sur la page qzdqzdq"
         ]);
     }
 

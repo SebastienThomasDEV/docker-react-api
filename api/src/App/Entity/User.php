@@ -4,40 +4,24 @@ namespace Api\Framework\App\Entity;
 
 use Api\Framework\Kernel\Attributes\ApiResource;
 use Api\Framework\Kernel\Http\Methods\Get;
-use Api\Framework\Kernel\Http\Methods\Post;
-use Api\Framework\Kernel\Http\Operations;
 
-#[ApiResource(
-    resource: 'users',
-    operations:
-    [
-        new Post(guarded: true),
-        new Get()
-    ],
-)]
+#[ApiResource('users', [])]
 class User
 {
     private ?int $id = null;
-    private ?string $nom = null;
-    private ?string $prenom = null;
+    private ?string $name = null;
     private ?string $roles = null;
+    private ?string $password = null;
 
-    private ?string $mdp = null;
-    private ?string $email = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
-        return $this->nom;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
+        return $this->name;
     }
 
     public function getRoles(): ?string
@@ -45,18 +29,23 @@ class User
         return $this->roles;
     }
 
-    public function setNom(string $nom): void
+    public function getPassword(): ?string
     {
-        $this->nom = $nom;
+        return $this->password;
     }
 
-    public function setPrenom(string $prenom): void
+    public function setName(string $name): void
     {
-        $this->prenom = $prenom;
+        $this->name = $name;
     }
 
-    public function setRoles(array $roles): void
+    public function setRoles(string $roles): void
     {
         $this->roles = $roles;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 }

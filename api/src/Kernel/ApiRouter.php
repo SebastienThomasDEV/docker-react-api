@@ -279,7 +279,8 @@ abstract class ApiRouter
                 $methodName = strtoupper(end($methodName));
                 $availableMethods[$methodName] = $availableMethod;
             }
-            if ($operation = $availableMethods[Utils::getRequestedMethod()]) {
+
+            if ($operation = $availableMethods[Utils::getRequestedMethod()] ?? null) {
                 if (str_contains(Utils::getUrn(), $operation->getResource())) {
                     if ($id = Utils::getResourceIdentifierFromUrn($operation->getResource())) {
                         $operation->execute($id);
