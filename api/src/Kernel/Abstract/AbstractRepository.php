@@ -89,14 +89,19 @@ abstract class AbstractRepository
         return Serializer::serializeAll(Model::getInstance()->query($sql, $criteria), ucfirst($this->entity));
     }
 
-    public final function findOneBy(array $criteria): object
+    public final function findOneBy(array $criteria): object | array
     {
         $sql = "SELECT * FROM " . $this->entity . " WHERE ";
         foreach ($criteria as $key => $value) {
             $sql .= $key . " = :" . $key . " AND ";
         }
+
         $sql = substr($sql, 0, -5);
-        return Serializer::serialize(Model::getInstance()->query($sql, $criteria), ucfirst($this->entity));
+        $result = Model::getInstance()->query($sql, $criteria);
+        if (empty($result)) {
+            return [];
+        }
+        return Serializer::serialize(Model::getInstance()->query($sql, $criteria)[0], ucfirst($this->entity));
     }
 
 }

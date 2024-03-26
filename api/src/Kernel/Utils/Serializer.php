@@ -7,12 +7,16 @@ abstract class Serializer
 {
     public final static function serialize(mixed $data, string $class): object | null
     {
+        if (!is_array($data) || empty($data)) {
+            return ExceptionManager::send(new \Exception('No data to serialize or could not be converted'));
+        }
         try {
             $class = new \ReflectionClass("Api\\Framework\\App\\Entity\\" . $class);
             $object = $class->newInstance();
             foreach ($data as $key => $value) {
                 if ($class->hasProperty($key)) {
                     $property = $class->getProperty($key);
+
                     $property->setAccessible(true);
                     $property->setValue($object, $value);
                 } else {

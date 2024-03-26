@@ -38,7 +38,7 @@ public final function getDecodedToken(): mixed
     $token = $headers['Authorization'];
     $token = explode(' ', $token);
     $token = $token[1];
-    return $token ? (array) $manager::decode($token)["data"] : [];
+    return $token ? (array) $manager->decode($token)["data"] : [];
 }
 
 

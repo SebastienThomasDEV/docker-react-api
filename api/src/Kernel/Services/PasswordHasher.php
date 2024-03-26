@@ -11,12 +11,12 @@ class PasswordHasher extends AbstractService
         parent::__construct(get_class($this));
     }
 
-    public final function hash(string $password): string
+    public final static function hash(string $password): string
     {
         return password_hash($password, PASSWORD_BCRYPT);
     }
 
-    public final function verify(string $password, string $hash): bool
+    public final static function verify(string $password, string $hash): bool
     {
         return password_verify($password, $hash);
     }

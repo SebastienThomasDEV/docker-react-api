@@ -17,12 +17,12 @@ class JwtManager extends AbstractService
     public function __construct()
     {
         date_default_timezone_set('UTC');
-        self::$privateKey = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Kernel' . DIRECTORY_SEPARATOR . 'config' .DIRECTORY_SEPARATOR  .'jwt'.DIRECTORY_SEPARATOR  .'private.pem');
-        self::$publicKey = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Kernel' . DIRECTORY_SEPARATOR . 'config' .DIRECTORY_SEPARATOR  .'jwt'.DIRECTORY_SEPARATOR  .'public.pem');
+        self::$privateKey = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config' .DIRECTORY_SEPARATOR  .'jwt'.DIRECTORY_SEPARATOR  .'private.pem');
+        self::$publicKey = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config' .DIRECTORY_SEPARATOR  .'jwt'.DIRECTORY_SEPARATOR  .'public.pem');
         parent::__construct(get_class($this));
     }
 
-    public static function encode(array $data): string
+    public function encode(array $data): string
     {
         $payload = [
             "iss" => $_SERVER['HTTP_HOST'],
@@ -34,7 +34,7 @@ class JwtManager extends AbstractService
         return JWT::encode($payload, self::$privateKey, 'RS256');
     }
 
-    public static function decode(string $token): array
+    public function decode(string $token): array
     {
         try {
             $decoded = (array)JWT::decode($token, new Key(self::$publicKey, 'RS256'));
