@@ -55,7 +55,7 @@ abstract class Utils
     {
         $urn = self::getUrn();
         $resourceIdentifier = basename($urn, $resource);
-        if (is_null($resourceIdentifier) || is_numeric($resourceIdentifier) === false || empty($resourceIdentifier)) {
+        if (is_numeric($resourceIdentifier) === false || empty($resourceIdentifier)) {
             return null;
         } else {
             return (int) $resourceIdentifier;

@@ -4,9 +4,13 @@ namespace Api\Framework\App\Entity;
 
 use Api\Framework\Kernel\Attributes\ApiResource;
 use Api\Framework\Kernel\Auth\UserInterface;
+use Api\Framework\Kernel\Http\Methods\Delete;
 use Api\Framework\Kernel\Http\Methods\Get;
 
-#[ApiResource('users')]
+#[ApiResource('users', operations: [
+    new Get(),
+    new Delete(),
+])]
 class User implements UserInterface
 {
     private ?int $id = null;

@@ -18,7 +18,10 @@ COPY config/app.conf /etc/apache2/sites-available/app.conf
 RUN a2ensite app && a2dissite 000-default
 COPY api/ /var/www/api/
 COPY config/zzz.ini /usr/local/etc/php/conf.d/
+COPY react-docker/ /var/www/react-docker/
+
 # run npm install
 RUN cd /var/www/api composer install
-
+RUN cd /var/www/react-docker npm install
+RUN cd /var/www/react-docker npm start
 EXPOSE 80

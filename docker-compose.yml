@@ -8,6 +8,9 @@ services:
       - ./api:/var/www/api
     networks:
       - lamp-network
+    depends_on:
+        - mariadb
+        - phpmyadmin
   phpmyadmin:
     image: phpmyadmin
     links:
@@ -16,10 +19,16 @@ services:
       - "8080:80"
     networks:
       - lamp-network
+    environment:
+        PMA_ARBITRARY: 1
+        PMA_HOST: mariadb
+        PMA_USER: root
+        PMA_PASSWORD: admin
+
   mariadb:
     image: mariadb
     ports:
-      - "3307:3307"
+      - "3306:3306"
     command: --lower_case_table_names=1
     volumes:
       - mariadb:/var/lib/mysql

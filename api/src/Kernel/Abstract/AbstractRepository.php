@@ -33,6 +33,7 @@ abstract class AbstractRepository
         // on extrait le nom de l'entité associée à la classe Repository
         // exemple : user
         $this->entity = strtolower(substr($repositoryName, 0, strpos($repositoryName, 'Repository')));
+        $this->entity = Model::getInstance()->getTables()[$this->entity];
     }
 
     public final function save(object $entity): void
@@ -103,5 +104,18 @@ abstract class AbstractRepository
         }
         return Serializer::serialize(Model::getInstance()->query($sql, $criteria)[0], ucfirst($this->entity));
     }
+
+    public function delete(int $id): void
+    {
+        $sql = "DELETE FROM " . $this->entity . " WHERE id = :id";
+        Model::getInstance()->query($sql, ['id' => $id]);
+    }
+
+
+    public final function createQuery(string $sql, array $params = []): array
+    {
+        return Model::getInstance()->query($sql, $params);
+    }
+
 
 }

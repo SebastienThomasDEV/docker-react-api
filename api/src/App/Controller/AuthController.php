@@ -31,7 +31,8 @@ class AuthController extends AbstractController
             'email' => $user->getEmail(),
         ]);
         return new JsonResponse(['message' => 'Welcome back ' . $user->getName(),
-            'token' => $token]);
+            'token' => $token
+        ]);
     }
 
     #[Guard]
@@ -39,6 +40,9 @@ class AuthController extends AbstractController
     public function checkToken()
     {
         $decodedToken = $this->getDecodedToken();
+        if (!$decodedToken) {
+            return new JsonResponse(['message' => 'Invalid token'], 401);
+        }
         return $this->send(['message' => 'Token is valid']);
     }
 

@@ -35,8 +35,31 @@ class Model
         return self::$instance;
     }
 
+    public final function getTables(): array
+    {
+        $query = $this->pdo->prepare("SHOW TABLES");
+        $query->execute();
+        $untreatedTables = $query->fetchAll(PDO::FETCH_ASSOC);
+        $tables = [];
+        foreach ($untreatedTables as $table) {
+            $tableName = $table['Tables_in_' . $_ENV['DB_DATABASE']];
+            $table = explode('_', $table['Tables_in_' . $_ENV['DB_DATABASE']]);
+            if (count($table) > 1) {
+                foreach ($table as $key => $value) {
+                    if ($key > 0) $table[$key] = ucfirst($value);
+                }
+                $table = implode('', $table);
+            } else {
+                $table = $table[0];
+            }
+            $tables[$table] = $tableName;
+        }
+        return $tables;
+    }
+
     public final function get(string $table, int $id): array | object
     {
+        $table = $this->getTables()[$table];
         try {
             $query = $this->pdo->prepare("SELECT * FROM $table WHERE id = :id LIMIT 1");
             $query->execute(['id' => $id]);
@@ -48,6 +71,7 @@ class Model
 
     public final function getAll(string $table): array | object
     {
+        $table = $this->getTables()[$table];
         try {
             $query = $this->pdo->prepare("SELECT * FROM $table");
             $query->execute();
@@ -59,6 +83,7 @@ class Model
 
     public final function post(string $table, array $data): void
     {
+        $table = $this->getTables()[$table];
         try {
             $columns = implode(', ', array_keys($data));
             $values = implode(', ', array_map(fn($key) => ":$key", array_keys($data)));
@@ -72,6 +97,7 @@ class Model
 
     public final function put(string $table, int $id, array $data): void
     {
+        $table = $this->getTables()[$table];
         try {
             $set = implode(', ', array_map(fn($key) => "$key = :$key", array_keys($data)));
             $query = $this->pdo->prepare("UPDATE $table SET $set WHERE id = :id");
@@ -83,6 +109,7 @@ class Model
 
     public final function delete(string $table, int $id): void
     {
+        $table = $this->getTables()[$table];
         try {
             $query = $this->pdo->prepare("DELETE FROM $table WHERE id = :id");
             $query->execute(['id' => $id]);
@@ -93,6 +120,7 @@ class Model
 
     public final function patch(string $table, int $id, array $data): void
     {
+        $table = $this->getTables()[$table];
         try {
             $set = implode(', ', array_map(fn($key) => "$key = :$key", array_keys($data)));
             $query = $this->pdo->prepare("UPDATE $table SET $set WHERE id = :id");

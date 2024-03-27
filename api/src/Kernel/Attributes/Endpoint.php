@@ -14,7 +14,7 @@ class Endpoint
     public function __construct(
         private readonly string $path,
         private string          $requestMethod = 'GET',
-        private ?Guard $guard = null,
+        private ?Guard          $guard = null,
     )
     {
     }
@@ -43,7 +43,6 @@ class Endpoint
     {
         $this->controller = $controller;
     }
-
 
 
     public final function getRequestMethod(): string

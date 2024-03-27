@@ -21,4 +21,6 @@ class PasswordHasher extends AbstractService
         return password_verify($password, $hash);
     }
 
+
+
 }

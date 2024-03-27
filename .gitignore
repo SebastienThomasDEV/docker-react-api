@@ -1,5 +1,5 @@
 .DS_Store
 ./api/.env
 ./api/vendor
-./front/node_modules
+./react-docker/node_modules
 ./.env

@@ -60,7 +60,6 @@ abstract class ApiRouter
             }
         }
         closedir($dir);
-        dd(self::$controllerEndpoints);
     }
 
 
@@ -127,8 +126,6 @@ abstract class ApiRouter
                 } else {
                     ExceptionManager::send(new \Exception('Method not allowed for this endpoint', 405));
                 }
-            } else {
-                ExceptionManager::send(new \Exception('Any endpoint match with the requested url', 404));
             }
         }
         ExceptionManager::send(new \Exception('Any endpoint found', 404));
