@@ -23,12 +23,12 @@ class JsonResponse
             }
         });
         http_response_code($this->status);
-        header('Access-Control-Allow-Headers: Content-Type'); // on autorise le type de contenu de la requête
-        header('Content-Type: application/json'); // on définit le type de contenu de la réponse
         header('Access-Control-Allow-Origin: *'); // on autorise les requêtes depuis n'importe quelle origine
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS'); // on autorise les requêtes de type GET, POST, PUT, DELETE et OPTIONS
         header('Access-Control-Max-Age: 3600'); // on définit la durée de validité de la réponse en secondes
         header('Access-Control-Allow-Credentials: true'); // on autorise les requêtes avec des cookies
+        header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With'); // on autorise les en-têtes de la requête
+        header('Content-Type: application/json; charset=UTF-8'); // on définit le type de contenu de la réponse
         print json_encode($data); // on envoie les données au client
         exit();
     }
