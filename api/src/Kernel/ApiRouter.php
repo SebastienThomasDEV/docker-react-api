@@ -99,7 +99,7 @@ abstract class ApiRouter
     public static function loadControllerEndpoint(): void
     {
         foreach (self::$controllerEndpoints as $endpoint) {
-            if ($endpoint->getPath() === Utils::getUrn()) {
+            if (str_contains(Utils::getUrn(), $endpoint->getPath())) {
                 if ($endpoint->getRequestMethod() === Utils::getRequestedMethod()) {
                     if (class_exists($endpoint->getController())) {
                         if ($endpoint->getGuard()) {

@@ -25,7 +25,7 @@ PHP;
 clearScreen();
 $input = readline("Veuillez entrer le nom du controller à créer : ");
 $input = ucfirst($input);
-$controller = fopen("..". DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "App" . DIRECTORY_SEPARATOR . "Controller" . DIRECTORY_SEPARATOR . $input . "Controller.php", "w");
+$controller = fopen(DIRECTORY_SEPARATOR. "..". DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "App" . DIRECTORY_SEPARATOR . "Controller" . DIRECTORY_SEPARATOR . $input . "Controller.php", "w");
 $controllerTemplate = str_replace('@^name', $input, $controllerTemplate);
 $controllerTemplate = str_replace('@name', strtolower($input), $controllerTemplate);
 fwrite($controller, $controllerTemplate);

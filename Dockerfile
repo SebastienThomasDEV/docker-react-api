@@ -10,7 +10,9 @@ RUN apt-get install -y libgd-dev && docker-php-ext-configure gd && docker-php-ex
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN apt-get install -y libicu-dev
 RUN docker-php-ext-install intl
+
 RUN a2enmod rewrite
+
 RUN docker-php-ext-enable opcache
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 COPY config/app.conf /etc/apache2/sites-available/app.conf

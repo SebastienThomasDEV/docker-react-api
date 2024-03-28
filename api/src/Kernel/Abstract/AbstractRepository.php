@@ -77,7 +77,7 @@ abstract class AbstractRepository
     public final function findAll(): array
     {
         $sql = "SELECT * FROM " . $this->entity;
-        return Model::getInstance()->query($sql);
+        return Serializer::serializeAll(Model::getInstance()->query($sql), ucfirst($this->entity));
     }
 
     public final function findBy(array $criteria): array

@@ -6,10 +6,12 @@ use Api\Framework\Kernel\Attributes\ApiResource;
 use Api\Framework\Kernel\Auth\UserInterface;
 use Api\Framework\Kernel\Http\Methods\Delete;
 use Api\Framework\Kernel\Http\Methods\Get;
+use Api\Framework\Kernel\Http\Methods\Post;
 
 #[ApiResource('users', operations: [
-    new Get(),
-    new Delete(),
+    new Get(guarded: true),
+    new Delete(guarded: true),
+    new Post(guarded: true)
 ])]
 class User implements UserInterface
 {
