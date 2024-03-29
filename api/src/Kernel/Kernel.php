@@ -58,8 +58,8 @@ class Kernel
     private function loadRequestedRoute(): void
     {
         try {
+            ApiRouter::registerUsersEntities();
             if (str_contains(Utils::getUrn(), 'resources')) {
-
                 ApiRouter::loadResourceEndPoint();
             } else {
                 ApiRouter::loadControllerEndpoint();

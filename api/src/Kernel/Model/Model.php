@@ -46,11 +46,11 @@ class Model
             $table = explode('_', $table['Tables_in_' . $_ENV['DB_DATABASE']]);
             if (count($table) > 1) {
                 foreach ($table as $key => $value) {
-                    if ($key > 0) $table[$key] = ucfirst($value);
+                    $table[$key] = ucfirst($value);
                 }
                 $table = implode('', $table);
             } else {
-                $table = $table[0];
+                $table = ucfirst($table[0]);
             }
             $tables[$table] = $tableName;
         }

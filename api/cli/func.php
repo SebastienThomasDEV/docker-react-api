@@ -133,7 +133,3 @@ function getRepositoryTemplate(): string {
     }
     EOT;
 }
-
-function getUserEntityTemplate() {
-
-}

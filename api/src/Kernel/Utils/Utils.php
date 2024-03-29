@@ -18,7 +18,8 @@ abstract class Utils
     public static function getUrn(): string
     {
         // get base name of uri use basename method
-        return $_SERVER['REQUEST_URI'];
+        // '/test?id=1
+        return explode("?", $_SERVER['REQUEST_URI'])[0];
 
     }
 

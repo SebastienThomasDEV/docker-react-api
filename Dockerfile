@@ -12,11 +12,14 @@ RUN apt-get install -y libicu-dev
 RUN docker-php-ext-install intl
 
 RUN a2enmod rewrite
+RUN a2enmod headers
 
 RUN docker-php-ext-enable opcache
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 COPY config/app.conf /etc/apache2/sites-available/app.conf
 # Copier les fichiers de votre projet dans le conteneur
+# faire que le serveur apache utilise le fichier de configuration que vous avez copié
+# exemple : a2ensite app && a2dissite 000-default
 RUN a2ensite app && a2dissite 000-default
 COPY api/ /var/www/api/
 COPY config/zzz.ini /usr/local/etc/php/conf.d/

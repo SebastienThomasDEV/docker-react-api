@@ -16,24 +16,24 @@ abstract class AbstractRepository
 {
 
     // on déclare une propriété privée pour stocker le nom de l'entité associée à la classe Repository
-    private string $entity;
-
-    // Dans son constructeur, elle récupère le nom de la classe Repository qui l'étend
-    // on utilise la fonction get_class pour récupérer le nom de la classe Repository
-    // celle ci affiche le nom complet de la classe enfant qui l'étend et non pas le nom de la classe AbstractRepository
-    // car get_class retourne le nom complet de la classe de l'objet qui l'appelle
+    private string $tableName;
+    private string $className;
+// Dans son constructeur, elle récupère le nom de la classe Repository qui l'étend
+// on utilise la fonction get_class pour récupérer le nom de la classe Repository
+// celle ci affiche le nom complet de la classe enfant qui l'étend et non pas le nom de la classe AbstractRepository
+// car get_class retourne le nom complet de la classe de l'objet qui l'appelle
     public function __construct()
     {
-        // on récupère le nom complet de la classe Repository qui l'étend
-        // exemple : App\Repositories\UserRepository
+    // on récupère le nom complet de la classe Repository qui l'étend
+    // exemple : App\Repositories\UserRepository
         $arrayDir = explode("\\", get_class($this));
         // on extrait le nom de la classe Repository
         // exemple : UserRepository
         $repositoryName = end($arrayDir);
         // on extrait le nom de l'entité associée à la classe Repository
         // exemple : user
-        $this->entity = strtolower(substr($repositoryName, 0, strpos($repositoryName, 'Repository')));
-        $this->entity = Model::getInstance()->getTables()[$this->entity];
+        $this->className = str_replace('Repository', '', $repositoryName);
+        $this->tableName = Model::getInstance()->getTables()[$this->className];
     }
 
     public final function save(object $entity): void
@@ -46,7 +46,7 @@ abstract class AbstractRepository
                 $property->setAccessible(true);
                 $data[$property->getName()] = $property->getValue($entity);
             }
-            $sql = "UPDATE " . $this->entity . " SET ";
+            $sql = "UPDATE " . $this->tableName . " SET ";
             foreach ($data as $key => $value) {
                 if ($key === 'id') continue;
                 $sql .= $key . " = :" . $key . ", ";
@@ -63,54 +63,52 @@ abstract class AbstractRepository
                 $property->setAccessible(true);
                 $data[$property->getName()] = $property->getValue($entity);
             }
-            $sql = "INSERT INTO " . $this->entity . " (" . implode(',', array_keys($data)) . ") VALUES (:" . implode(',:', array_keys($data)) . ")";
+            $sql = "INSERT INTO " . $this->tableName . " (" . implode(',', array_keys($data)) . ") VALUES (:" . implode(',:', array_keys($data)) . ")";
             Model::getInstance()->query($sql, $data);
         }
     }
 
     public final function findById(int $id): object
     {
-        $sql = "SELECT * FROM " . $this->entity . " WHERE id = :id";
-        return Serializer::serialize(Model::getInstance()->query($sql, ['id' => $id])[0], ucfirst($this->entity));
+        $sql = "SELECT * FROM " . $this->tableName . " WHERE id = :id";
+        return Serializer::serialize(Model::getInstance()->query($sql, ['id' => $id])[0], $this->className);
     }
 
     public final function findAll(): array
     {
-        $sql = "SELECT * FROM " . $this->entity;
-        return Serializer::serializeAll(Model::getInstance()->query($sql), ucfirst($this->entity));
+        $sql = "SELECT * FROM " . $this->tableName;
+        return Serializer::serializeAll(Model::getInstance()->query($sql), $this->className);
     }
 
     public final function findBy(array $criteria): array
     {
-        $sql = "SELECT * FROM " . $this->entity . " WHERE ";
+        $sql = "SELECT * FROM " . $this->tableName . " WHERE ";
         foreach ($criteria as $key => $value) {
             $sql .= $key . " = :" . $key . " AND ";
         }
         $sql = substr($sql, 0, -5);
-        return Serializer::serializeAll(Model::getInstance()->query($sql, $criteria), ucfirst($this->entity));
+        return Serializer::serializeAll(Model::getInstance()->query($sql, $criteria), $this->className);
     }
 
-    public final function findOneBy(array $criteria): object | array
+    public final function findOneBy(array $criteria): object|array
     {
-        $sql = "SELECT * FROM " . $this->entity . " WHERE ";
+        $sql = "SELECT * FROM " . $this->tableName . " WHERE ";
         foreach ($criteria as $key => $value) {
             $sql .= $key . " = :" . $key . " AND ";
         }
-
         $sql = substr($sql, 0, -5);
         $result = Model::getInstance()->query($sql, $criteria);
         if (empty($result)) {
             return [];
         }
-        return Serializer::serialize(Model::getInstance()->query($sql, $criteria)[0], ucfirst($this->entity));
+        return Serializer::serialize(Model::getInstance()->query($sql, $criteria)[0], $this->className);
     }
 
     public function delete(int $id): void
     {
-        $sql = "DELETE FROM " . $this->entity . " WHERE id = :id";
+        $sql = "DELETE FROM " . $this->tableName . " WHERE id = :id";
         Model::getInstance()->query($sql, ['id' => $id]);
     }
-
 
     public final function createQuery(string $sql, array $params = []): array
     {

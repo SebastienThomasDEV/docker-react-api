@@ -10,7 +10,6 @@ use Api\Framework\Kernel\Utils\Utils;
 abstract class ApiRouter
 {
     private static array $controllerEndpoints = [];
-
     private static array $resources = [];
 
     public static function registerControllerEndpoints(): void
@@ -99,7 +98,7 @@ abstract class ApiRouter
     public static function loadControllerEndpoint(): void
     {
         foreach (self::$controllerEndpoints as $endpoint) {
-            if (str_contains(Utils::getUrn(), $endpoint->getPath())) {
+            if (Utils::getUrn() === $endpoint->getPath()) {
                 if ($endpoint->getRequestMethod() === Utils::getRequestedMethod()) {
                     if (class_exists($endpoint->getController())) {
                         if ($endpoint->getGuard()) {
@@ -155,6 +154,38 @@ abstract class ApiRouter
             }
         }
         ExceptionManager::send(new \Exception('Resource endpoint not found', 404));
+    }
+
+
+    public static function registerUsersEntities():void {
+        $dir = opendir(__DIR__
+            . DIRECTORY_SEPARATOR
+            . '..' . DIRECTORY_SEPARATOR
+            .'App'. DIRECTORY_SEPARATOR
+            .'Entity');
+        while ($file_path = readdir($dir)) {
+            if ($file_path !== '.' && $file_path !== '..') {
+                $className = str_replace('.php', '', $file_path);
+                $file_path = "Api\\Framework\\App\\Entity\\" . $className;
+                try {
+                    $class = new \ReflectionClass($file_path);
+                    foreach ($class->getInterfaceNames() as $interface) {
+                        if ($interface === 'Api\Framework\Kernel\Auth\UserInterface' && !isset($_ENV["user"])) {
+                            $userEntity = [
+                                'class' => $file_path,
+                                'repository' => str_replace('Entity', 'Repository', $file_path) . 'Repository'
+                            ];
+                            $_ENV["user"] = $userEntity;
+                        } else {
+                            ExceptionManager::send(new \Exception('User entity not found', 404));
+                        }
+                    }
+                } catch (\ReflectionException $e) {
+                    ExceptionManager::send(new \Exception($e->getMessage(), $e->getCode()));
+                }
+            }
+        }
+        closedir($dir);
     }
 
 }

@@ -22,7 +22,7 @@ class JwtManager extends AbstractService
         parent::__construct(get_class($this));
     }
 
-    public function encode(array $data): string
+    public final function encode(array $data): string
     {
         $payload = [
             "iss" => $_SERVER['HTTP_HOST'],
@@ -34,16 +34,12 @@ class JwtManager extends AbstractService
         return JWT::encode($payload, self::$privateKey, 'RS256');
     }
 
-    public function decode(string $token): array
+    public final function decode(string $token): array
     {
         try {
-            $decoded = (array)JWT::decode($token, new Key(self::$publicKey, 'RS256'));
-            if ($decoded['exp'] < time()) {
-                ExceptionManager::send(new \Exception('Token expired'));
-            }
-            return $decoded;
+            return (array)JWT::decode($token, new Key(self::$publicKey, 'RS256'));
         } catch (\Exception $e) {
-            ExceptionManager::send(new \Exception('Invalid token'));
+            ExceptionManager::send($e);
         }
         return [];
     }
